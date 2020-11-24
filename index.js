@@ -14,7 +14,7 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({ server: server });
 console.log("websocket server created");
 
-wss.getUniqueID = function () {
+const getUniqueID = function () {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
@@ -24,7 +24,7 @@ wss.getUniqueID = function () {
 };
 wss.on("connection", (ws) => {
   if (!ws.id) {
-    ws.id = wss.getUniqueID();
+    ws.id = getUniqueID();
   }
   wss.clients.forEach((client) => {
     console.log(client.id);
