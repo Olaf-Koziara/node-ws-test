@@ -14,30 +14,17 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({ server: server });
 console.log("websocket server created");
 
-wss.on("connection", (ws) => {
-  ws.id = function () {
-    function s4() {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    }
-    return s4() + s4() + "-" + s4();
-  };
-
+wss.on("connection", function (ws) {
+  ws.id = 1;
   wss.clients.forEach((client) => {
     console.log(client.id);
     client.send(JSON.stringify({ uid: client.id }));
   });
 
-  ws.on("message", (data) => {
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN && client !== ws) {
-        const uid = JSON.parse(data).uid;
+  console.log("websocket connection open");
 
-        if (uid === client.id) {
-          client.send(data);
-        }
-      }
-    });
+  ws.on("close", function () {
+    console.log("websocket connection close");
+    clearInterval(id);
   });
 });
