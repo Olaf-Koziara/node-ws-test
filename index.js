@@ -15,10 +15,7 @@ const wss = new WebSocketServer({ server: server });
 console.log("websocket server created");
 
 wss.on("connection", function (ws) {
-  wss.clients.forEach((client) => {
-    console.log(client.id);
-    client.send(JSON.stringify({ uid: client.id }));
-  });
+  console.log(wss);
 
   console.log("websocket connection open");
 
