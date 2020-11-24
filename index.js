@@ -16,7 +16,9 @@ console.log("websocket server created");
 
 wss.on("connection", function (ws) {
   console.log("websocket connection open");
-
+  wss.clients.forEach((client) => {
+    console.log(client.id);
+  });
   ws.on("close", function () {
     console.log("websocket connection close");
   });
