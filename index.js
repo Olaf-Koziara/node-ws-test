@@ -14,18 +14,16 @@ console.log("http server listening on %d", port);
 var wss = new WebSocketServer({ server: server });
 console.log("websocket server created");
 
-const getUniqueID = function () {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4() + "-" + s4();
-};
 wss.on("connection", (ws) => {
-  if (!ws.id) {
-    ws.id = getUniqueID();
-  }
+  ws.id = function () {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + "-" + s4();
+  };
+
   wss.clients.forEach((client) => {
     console.log(client.id);
     client.send(JSON.stringify({ uid: client.id }));
