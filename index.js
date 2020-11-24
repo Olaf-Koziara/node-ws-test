@@ -15,12 +15,9 @@ const wss = new WebSocketServer({ server: server });
 console.log("websocket server created");
 
 wss.on("connection", function (ws) {
-  console.log(wss);
-
   console.log("websocket connection open");
 
   ws.on("close", function () {
     console.log("websocket connection close");
-    clearInterval(id);
   });
 });
